@@ -7,32 +7,36 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 class RoundedButton extends JButton {
-    private int cornerRadius;
+    private final int cornerRadius;
     private Color borderColor;
-    private Color originalBorderColor = Color.WHITE;
-    private Color hoverBorderColor = new Color(144, 238, 144);
+    private final Color originalBorderColor;
+    private final Color originalTextColor;
+    private final Color hoverBorderColor = new Color(144, 238, 144);
 
-    public RoundedButton(String label, int cornerRadius) {
+    public RoundedButton(String label, int cornerRadius, Color textColor, Color borderColor) {
         super(label);
         this.cornerRadius = cornerRadius;
+        this.originalBorderColor = borderColor;
+        this.originalTextColor = textColor;
+        this.borderColor = borderColor;
+
         setContentAreaFilled(false);
         setFocusPainted(false);
-        borderColor = originalBorderColor;
-
+        setForeground(textColor);
         setFont(new Font("SansSerif", Font.BOLD, 24));
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                borderColor = hoverBorderColor;
+                RoundedButton.this.borderColor = hoverBorderColor;
                 setForeground(hoverBorderColor);
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                borderColor = originalBorderColor;
-                setForeground(Color.WHITE);
+                RoundedButton.this.borderColor = originalBorderColor;
+                setForeground(originalTextColor);
                 repaint();
             }
         });

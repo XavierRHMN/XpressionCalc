@@ -65,8 +65,8 @@ public class Calculator extends JFrame {
         };
 
         for (String buttonText : buttons) {
-            RoundedButton button = new RoundedButton(buttonText, 20); // Use RoundedButton with corner radius
-            button.setForeground(Color.WHITE); // Text color
+            Color buttonColor = buttonColors.getOrDefault(buttonText, Color.WHITE);
+            RoundedButton button = new RoundedButton(buttonText, 20, buttonColor, buttonColor);
             button.setBackground(Color.BLACK); // Button color
             button.addActionListener(e -> buttonClicked(e.getActionCommand()));
             gridPanel.add(button);
@@ -78,22 +78,29 @@ public class Calculator extends JFrame {
 
     private Map<String, Color> defineButtonColors() {
         Map<String, Color> buttonColors = new HashMap<>();
-        buttonColors.put("1", Color.RED);
-        buttonColors.put("2", Color.BLUE);
-        buttonColors.put("3", Color.GREEN);
-        // ... Add colors for other buttons ...
+        buttonColors.put("1", new Color(255, 102, 102));
+        buttonColors.put("2", new Color(255, 102, 102));
+        buttonColors.put("3", new Color(255, 102, 102));
+        buttonColors.put("4", new Color(250, 112, 91));
+        buttonColors.put("5", new Color(255, 112, 91));
+        buttonColors.put("6", new Color(255, 112, 91));
+        buttonColors.put("7", new Color(255, 154, 102));
+        buttonColors.put("8", new Color(255, 154, 102));
+        buttonColors.put("9", new Color(255, 154, 102));
+        buttonColors.put("0", new Color(255, 180, 102));
+        buttonColors.put("+", new Color(255, 180, 102));
+        buttonColors.put("-", new Color(255, 180, 102));
+        buttonColors.put("×", new Color(255, 210, 102));
+        buttonColors.put("÷", new Color(255, 210, 102));
+        buttonColors.put("DEL", new Color(255, 210, 102));
+        buttonColors.put("=", new Color(255, 230, 102));
         return buttonColors;
     }
 
-    private boolean isOperator(String buttonText) {
-        return buttonText.equals("+") || buttonText.equals("-") ||
-                buttonText.equals("*") || buttonText.equals("/") ||
-                buttonText.equals("DEL") || buttonText.equals("=");
-    }
-
     private JButton createButton(String buttonText) {
-        RoundedButton button = new RoundedButton(buttonText, 20); // Use RoundedButton with corner radius
-        button.setForeground(Color.WHITE); // Text color
+        Color buttonColor = defineButtonColors().getOrDefault(buttonText, Color.WHITE);
+        RoundedButton button = new RoundedButton(buttonText, 20, buttonColor, buttonColor);
+        button.setForeground(new Color(255, 230, 102)); // Text color
         button.setBackground(Color.BLACK); // Button color
         button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
