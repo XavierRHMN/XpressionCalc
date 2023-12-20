@@ -69,7 +69,7 @@ public class Calculator extends JFrame {
             // set text colour and border colour for all buttons except '='
             RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
             button.setBackground(Color.BLACK); // Button color
-            button.setFont(new Font("Lucida Sans", Font.PLAIN, 20)); // Set the custom font here
+            button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
             button.addActionListener(e -> buttonClicked(e.getActionCommand()));
             gridPanel.add(button);
         }
@@ -105,7 +105,7 @@ public class Calculator extends JFrame {
         RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
 //        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
-         button.setFont(new Font("Lucida Sans", Font.PLAIN, 20)); // Set the custom font here
+         button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
         button.addActionListener(e -> buttonClicked(e.getActionCommand()));
         return button;
