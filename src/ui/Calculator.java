@@ -6,8 +6,8 @@ import model.MathParser;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Calculator extends JFrame {
