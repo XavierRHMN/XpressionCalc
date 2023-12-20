@@ -39,7 +39,7 @@ public class Calculator extends JFrame {
         displayField = new JTextField();
         displayField.setHorizontalAlignment(JTextField.CENTER);
         displayField.setEditable(false);
-        displayField.setFont(new Font("SansSerif", Font.BOLD, 20));
+        displayField.setFont(new Font("Lucida Sans", Font.BOLD, 20));
         displayField.setBackground(Color.BLACK);
         displayField.setForeground(Color.WHITE);
         displayField.setBorder(new EmptyBorder(10, 10, 10, 10)); // Set padding around the display field
@@ -66,14 +66,16 @@ public class Calculator extends JFrame {
 
         for (String buttonText : buttons) {
             Color buttonColor = buttonColors.getOrDefault(buttonText, Color.WHITE);
-            RoundedButton button = new RoundedButton(buttonText, 20, buttonColor, buttonColor);
+            // set text colour and border colour for all buttons except '='
+            RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
             button.setBackground(Color.BLACK); // Button color
+            button.setFont(new Font("Lucida Sans", Font.PLAIN, 20)); // Set the custom font here
             button.addActionListener(e -> buttonClicked(e.getActionCommand()));
             gridPanel.add(button);
         }
 
         buttonPanel.add(gridPanel, BorderLayout.CENTER);
-        buttonPanel.add(createButton("="), BorderLayout.SOUTH); // Add "=" button to the bottom
+        buttonPanel.add(createEqualsButton("="), BorderLayout.SOUTH); // Add "=" button to the bottom
     }
 
     private Map<String, Color> defineButtonColors() {
@@ -97,12 +99,13 @@ public class Calculator extends JFrame {
         return buttonColors;
     }
 
-    private JButton createButton(String buttonText) {
+    private JButton createEqualsButton(String buttonText) {
         Color buttonColor = defineButtonColors().getOrDefault(buttonText, Color.WHITE);
-        RoundedButton button = new RoundedButton(buttonText, 20, buttonColor, buttonColor);
-        button.setForeground(new Color(255, 230, 102)); // Text color
+        // Set text colour and border colour for '=' button
+        RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
-        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
+//        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
+         button.setFont(new Font("Lucida Sans", Font.PLAIN, 20)); // Set the custom font here
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
         button.addActionListener(e -> buttonClicked(e.getActionCommand()));
         return button;
