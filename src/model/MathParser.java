@@ -37,7 +37,7 @@ public class MathParser {
                 tokens.add(new Token(number.toString(), TokenType.NUMBER));
             } else if (c == 'x') {
                 tokens.add(new Token(String.valueOf(c), TokenType.VARIABLE));
-            } else if ("+-*/()^".indexOf(c) != -1) {
+            } else if ("+-×÷()^".indexOf(c) != -1) {
                 tokens.add(new Token(String.valueOf(c), TokenType.OPERATOR));
             } else {
                 throw new IllegalArgumentException("Invalid character: " + c);
@@ -113,8 +113,8 @@ public class MathParser {
             case "+":
             case "-":
                 return 1;
-            case "*":
-            case "/":
+            case "×":
+            case "÷":
                 return 2;
             case "^":
                 return 3;

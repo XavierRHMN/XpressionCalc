@@ -36,9 +36,9 @@ public class MathNode {
                     return left + right;
                 case "-":
                     return left - right;
-                case "*":
+                case "×":
                     return left * right;
-                case "/":
+                case "÷":
                     if (right == 0) throw new ArithmeticException("Division by zero");
                     return left / right;
                 default:
@@ -52,7 +52,7 @@ public class MathNode {
 
     private boolean isOperator(String value) {
         return "+".equals(value) || "-".equals(value) ||
-                "*".equals(value) || "/".equals(value);
+                "×".equals(value) || "÷".equals(value);
     }
 
 
