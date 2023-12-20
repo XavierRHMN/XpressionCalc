@@ -44,11 +44,11 @@ public class Calculator extends JFrame {
 
     private void initButtonPanel() {
         buttonPanel = new JPanel(new BorderLayout(10, 10)); // Use BorderLayout
-        buttonPanel.setBackground(Color.DARK_GRAY);
+        buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add padding around the panel
 
         JPanel gridPanel = new JPanel(new GridLayout(5, 3, 10, 10)); // 5 rows, 3 cols, 10px gaps
-        gridPanel.setBackground(Color.DARK_GRAY);
+        gridPanel.setBackground(Color.BLACK);
 
         String[] buttons = {
                 "1", "2", "3",
@@ -59,7 +59,10 @@ public class Calculator extends JFrame {
         };
 
         for (String buttonText : buttons) {
-            JButton button = createButton(buttonText);
+            RoundedButton button = new RoundedButton(buttonText, 20); // Use RoundedButton with corner radius
+            button.setForeground(Color.WHITE); // Text color
+            button.setBackground(Color.DARK_GRAY); // Button color
+            button.addActionListener(e -> buttonClicked(e.getActionCommand()));
             gridPanel.add(button);
         }
 
@@ -68,9 +71,9 @@ public class Calculator extends JFrame {
     }
 
     private JButton createButton(String buttonText) {
-        JButton button = new JButton(buttonText);
+        RoundedButton button = new RoundedButton(buttonText, 20); // Use RoundedButton with corner radius
         button.setForeground(Color.WHITE); // Text color
-        button.setBackground(Color.BLACK); // Button color
+        button.setBackground(Color.DARK_GRAY); // Button color
         button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
         button.addActionListener(e -> buttonClicked(e.getActionCommand()));
