@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class MathNode {
     String value;
-    MathNode argument;
     MathNode left;
     MathNode right;
 

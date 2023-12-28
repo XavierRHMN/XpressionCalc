@@ -61,7 +61,7 @@ public class Calculator extends JFrame {
                 "4", "5", "6",
                 "7", "8", "9",
                 "0", "+", "-",
-                "×", "÷", "DEL"
+                "×", "÷", "DEL",
         };
 
         for (String buttonText : buttons) {
@@ -118,6 +118,11 @@ public class Calculator extends JFrame {
             } catch (Exception e) {
                 displayField.setText("ERROR");
             }
+//            } catch (IllegalArgumentException e) {
+//                displayField.setText("ERROR");
+//            } catch (ArithmeticException e) {
+//                displayField.setText("ERROR");
+//            }
         } else if (buttonText.equals("DEL")) {
             resetDisplayField();
             handleDelete();

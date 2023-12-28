@@ -37,8 +37,10 @@ public class MathParser {
                 tokens.add(new Token(number.toString(), TokenType.NUMBER));
             } else if (c == 'x') {
                 tokens.add(new Token(String.valueOf(c), TokenType.VARIABLE));
-            } else if ("+-×÷()^".indexOf(c) != -1) {
+            } else if ("+-×÷^".indexOf(c) != -1) {
                 tokens.add(new Token(String.valueOf(c), TokenType.OPERATOR));
+            }  else if ("()".indexOf(c) != -1) {
+                tokens.add(new Token(String.valueOf(c), TokenType.PARENTHESIS));
             } else {
                 throw new IllegalArgumentException("Invalid character: " + c);
             }
@@ -64,7 +66,6 @@ public class MathParser {
         for (Token token : input) {
             switch (token.type) {
                 case NUMBER:
-                case VARIABLE:
                     output.push(new MathNode(token.value));
                     break;
                 case OPERATOR:
@@ -78,11 +79,14 @@ public class MathParser {
                         operatorStack.push(token);
                     } else {
                         if (token.value.equals(")")) {
-                            while (!operatorStack.peek().value.equals("(")) {
+                            while (!operatorStack.isEmpty() && !operatorStack.peek().value.equals("(")) {
                                 processOperator(operatorStack, output);
                             }
+                            if (operatorStack.isEmpty()) {
+                                throw new IllegalStateException("Mismatched parentheses in expression");
+                            }
+                            operatorStack.pop(); // Pop the opening parenthesis
                         }
-                        operatorStack.pop();
                     }
                     break;
             }
