@@ -37,7 +37,6 @@ class MathParserTest {
         assertEquals(5, parser.parseExpression("–(–5)"), 0.001);
         assertEquals(6.0, parser.parseExpression("3×(–4+6)"), 0.001);
         assertEquals(27.0, parser.parseExpression("–(–(5+4)×3)"), 0.001);
-        assertThrows(IllegalArgumentException.class,() -> parser.parseExpression("–(–3)–(3)"));
     }
 
     @Test
@@ -99,6 +98,11 @@ class MathParserTest {
     @Test
     void testInvalidDecimalExpression() {
         assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("(3).6"));
+    }
+
+    @Test
+    void testInvalidUnarySubtract() {
+        assertThrows(IllegalArgumentException.class,() -> parser.parseExpression("–(–3)–(3)"));
     }
 
     @Test

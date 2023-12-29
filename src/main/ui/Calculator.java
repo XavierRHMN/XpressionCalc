@@ -5,6 +5,7 @@ import main.model.MathParser;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -139,14 +140,13 @@ public class Calculator extends JFrame {
         if (buttonText.equals("=")) {
             try {
                 performCalculation();
-            } catch (Exception e) {
-                displayField.setText("ERROR");
+            } catch (IllegalArgumentException e) {
+                displayField.setText("SYNTAX ERROR");
+            } catch (ArithmeticException e) {
+                displayField.setText("ARITHMETIC ERROR");
+            } catch (EmptyStackException e) {
+
             }
-//            } catch (IllegalArgumentException e) {
-//                displayField.setText("ERROR");
-//            } catch (ArithmeticException e) {
-//                displayField.setText("ERROR");
-//            }
         } else if (buttonText.equals("CE")) {
             resetDisplayField();
             handleDelete();
@@ -159,7 +159,8 @@ public class Calculator extends JFrame {
     }
 
     private void resetDisplayField() {
-        if (calculationPerformed || displayField.getText().equals("ERROR")) {
+        if (calculationPerformed || displayField.getText().equals("SYNTAX ERROR") ||
+                displayField.getText().equals("ARITHMETIC ERROR")) {
             displayField.setText("");
         }
         calculationPerformed = false;

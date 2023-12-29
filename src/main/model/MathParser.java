@@ -172,8 +172,6 @@ public class MathParser {
                 operandStack.push(leftOperand - rightOperand);
                 break;
             case "×":
-                operandStack.push(leftOperand * rightOperand);
-                break;
             case "*":
                 operandStack.push(leftOperand * rightOperand);
                 break;
