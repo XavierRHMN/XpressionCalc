@@ -21,7 +21,7 @@ public class Calculator extends JFrame {
         initButtonPanel();
         layoutComponents();
 
-        setSize(300, 400);
+        setSize(250, 420);
         setTitle("Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
