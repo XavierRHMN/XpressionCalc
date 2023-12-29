@@ -103,18 +103,17 @@ class MathParserTest {
 
     @Test
     void testMismatchedParentheses() {
-        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("(2+3"));
-        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2+3)"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("(2 + 3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 + 3)"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("((2 + 3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 + 3))"));
     }
+
 
     @Test
     void testIncorrectOperatorUsage() {
         assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2++3"));
         assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2+÷3"));
-    }
-
-    @Test
-    void testDivisionByZero() {
     }
 
     @Test

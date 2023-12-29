@@ -151,7 +151,6 @@ public class Calculator extends JFrame {
             resetDisplayField();
             handleDelete();
         } else if (buttonText.equals("(–)")) {
-            resetDisplayField();
             handleInput("–");
         } else {
             resetDisplayField();
