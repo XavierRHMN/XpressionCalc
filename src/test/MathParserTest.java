@@ -78,9 +78,40 @@ class MathParserTest {
     }
 
     @Test
-    void testInvalidExpression() {
+    void testInvalidDecimalExpression() {
         assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("(3).6"));
     }
+
+    @Test
+    void testMismatchedParentheses() {
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("(2 + 3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 + 3)"));
+    }
+
+
+    @Test
+    void testIncorrectOperatorUsage() {
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 ++ 3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 + ÷ 3"));
+    }
+
+    @Test
+    void testDivisionByZero() {
+        assertThrows(ArithmeticException.class, () -> parser.parseExpression("10 ÷ 0"));
+    }
+
+    @Test
+    void testInvalidSyntax() {
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("× 2 +3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2 +"));
+    }
+
+    @Test
+    void testInvalidNumberFormats() {
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2..5 + 3"));
+        assertThrows(IllegalArgumentException.class, () -> parser.parseExpression("2.3.4 + 5"));
+    }
+
 
     // Add more tests for edge cases and complex expressions
 }

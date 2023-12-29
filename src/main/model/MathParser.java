@@ -19,6 +19,26 @@ public class MathParser {
         }
     }
 
+    private void checkParenthesesBalance(String expression) {
+        int balance = 0;
+        for (char c : expression.toCharArray()) {
+            if (c == '(') {
+                balance++;
+            } else if (c == ')') {
+                balance--;
+                if (balance < 0) {
+                    // Found a closing parenthesis without a matching opening parenthesis
+                    throw new IllegalArgumentException("Mismatched parentheses in expression: " + expression);
+                }
+            }
+        }
+
+        if (balance != 0) {
+            // Opening parentheses not matched by closing parentheses
+            throw new IllegalArgumentException("Mismatched parentheses in expression: " + expression);
+        }
+    }
+
     // Tokenize the expression
     private List<Token> tokenize(String expression) {
         List<Token> tokens = new ArrayList<>();
@@ -30,9 +50,19 @@ public class MathParser {
 
             if (Character.isDigit(c) || c == '.') {
                 StringBuilder number = new StringBuilder();
-                while (i < chars.length && (Character.isDigit(chars[i]) || (chars[i] == '.' && !number.toString().contains(".")))) {
+                boolean decimalPointEncountered = false;
+
+                while (i < chars.length && (Character.isDigit(chars[i]) || chars[i] == '.')) {
+                    if (chars[i] == '.') {
+                        if (decimalPointEncountered) {
+                            // More than one decimal point in the number
+                            throw new IllegalArgumentException("Invalid number format: " + expression);
+                        }
+                        decimalPointEncountered = true;
+                    }
                     number.append(chars[i++]);
                 }
+
                 i--; // Adjust for the next character
                 tokens.add(new Token(number.toString(), TokenType.NUMBER));
 
@@ -41,12 +71,20 @@ public class MathParser {
                     tokens.add(new Token("×", TokenType.OPERATOR));
                 }
             } else if ("–".indexOf(c) != -1) {
-                tokens.add(new Token("(", TokenType.PARENTHESIS));
-                tokens.add(new Token("0", TokenType.NUMBER));
-                tokens.add(new Token("-", TokenType.OPERATOR));
-                tokens.add(new Token("1", TokenType.NUMBER));
-                tokens.add(new Token(")", TokenType.PARENTHESIS));
-                tokens.add(new Token("*", TokenType.OPERATOR));
+                // Check if the en dash is used correctly for unary negation
+                if (i > 0 && (chars[i - 1] == '(' || "+-×÷^".indexOf(chars[i - 1]) != -1) &&
+                        i + 1 < chars.length && Character.isDigit(chars[i + 1]) || (chars[i + 1] == '(') || (i == 0)) {
+                    // Correct usage for unary negation
+                    tokens.add(new Token("(", TokenType.PARENTHESIS));
+                    tokens.add(new Token("0", TokenType.NUMBER));
+                    tokens.add(new Token("-", TokenType.OPERATOR));
+                    tokens.add(new Token("1", TokenType.NUMBER));
+                    tokens.add(new Token(")", TokenType.PARENTHESIS));
+                    tokens.add(new Token("*", TokenType.OPERATOR));
+                } else {
+                    // Incorrect usage of en dash
+                    throw new IllegalArgumentException("Invalid use of en dash: " + expression);
+                }
             } else if ("+-×÷^".indexOf(c) != -1) {
                 tokens.add(new Token(String.valueOf(c), TokenType.OPERATOR));
             } else if (c == '(') {
@@ -81,6 +119,8 @@ public class MathParser {
         Stack<Token> operatorStack = new Stack<>();
         Stack<Double> operandStack = new Stack<>();
 
+        checkParenthesesBalance(expression);
+
         for (Token token : tokens) {
             switch (token.type) {
                 case NUMBER:
@@ -113,6 +153,10 @@ public class MathParser {
     }
 
     private void processOperator(Token operator, Stack<Double> operandStack) {
+        if (operandStack.size() < 2) {
+            throw new IllegalArgumentException();
+        }
+
         double rightOperand = operandStack.pop();
         double leftOperand = operandStack.pop();
         switch (operator.value) {
@@ -129,6 +173,9 @@ public class MathParser {
                 operandStack.push(leftOperand * rightOperand);
                 break;
             case "÷":
+                if (rightOperand == 0) {
+                    throw new ArithmeticException();
+                }
                 operandStack.push(leftOperand / rightOperand);
                 break;
             case "^":
