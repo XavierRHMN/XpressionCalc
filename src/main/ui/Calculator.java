@@ -1,7 +1,6 @@
-package ui;
+package main.ui;
 
-import model.MathNode;
-import model.MathParser;
+import main.model.MathParser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +15,7 @@ public class Calculator extends JFrame {
     private boolean calculationPerformed; // Flag to indicate if calculation was performed
 
     public Calculator() {
-        setIconImage(loadIconImage("calculator.jpg")); // Set custom icon
+        setIconImage(loadIconImage()); // Set custom icon
 
         initDisplayField();
         initButtonPanel();
@@ -29,8 +28,8 @@ public class Calculator extends JFrame {
         setLocationRelativeTo(null); // Center the frame on the screen
     }
 
-    private Image loadIconImage(String path) {
-        ImageIcon icon = new ImageIcon(path);
+    private Image loadIconImage() {
+        ImageIcon icon = new ImageIcon("calculator.jpg");
         return icon.getImage();
     }
 
@@ -53,15 +52,15 @@ public class Calculator extends JFrame {
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add padding around the panel
 
-        JPanel gridPanel = new JPanel(new GridLayout(5, 3, 10, 10)); // 5 rows, 3 cols, 10px gaps
+        JPanel gridPanel = new JPanel(new GridLayout(5, 4, 10, 10)); // 5 rows, 3 cols, 10px gaps
         gridPanel.setBackground(Color.BLACK);
 
         String[] buttons = {
-                "1", "2", "3",
-                "4", "5", "6",
-                "7", "8", "9",
-                "0", "+", "-",
-                "×", "÷", "DEL",
+            "+", "-", "×", "÷",
+            "7", "8", "9", "(",
+            "4", "5", "6", ")",
+            "1", "2", "3", "^",
+            "0", ".", "(–)", "CE"
         };
 
         for (String buttonText : buttons) {
@@ -75,34 +74,60 @@ public class Calculator extends JFrame {
         }
 
         buttonPanel.add(gridPanel, BorderLayout.CENTER);
-        buttonPanel.add(createEqualsButton("="), BorderLayout.SOUTH); // Add "=" button to the bottom
+        buttonPanel.add(createEqualsButton(), BorderLayout.SOUTH); // Add "=" button to the bottom
     }
 
     private Map<String, Color> defineButtonColors() {
         Map<String, Color> buttonColors = new HashMap<>();
-        buttonColors.put("1", new Color(255, 102, 102));
-        buttonColors.put("2", new Color(255, 102, 102));
-        buttonColors.put("3", new Color(255, 102, 102));
-        buttonColors.put("4", new Color(250, 112, 91));
-        buttonColors.put("5", new Color(255, 112, 91));
-        buttonColors.put("6", new Color(255, 112, 91));
-        buttonColors.put("7", new Color(255, 154, 102));
-        buttonColors.put("8", new Color(255, 154, 102));
-        buttonColors.put("9", new Color(255, 154, 102));
-        buttonColors.put("0", new Color(255, 180, 102));
-        buttonColors.put("+", new Color(255, 180, 102));
-        buttonColors.put("-", new Color(255, 180, 102));
-        buttonColors.put("×", new Color(255, 210, 102));
-        buttonColors.put("÷", new Color(255, 210, 102));
-        buttonColors.put("DEL", new Color(255, 210, 102));
-        buttonColors.put("=", new Color(255, 230, 102));
+
+        Color red = new Color(255, 75, 89);
+        Color lightRed = new Color(255, 89, 89);
+        Color redOrange = new Color(250, 110, 91);
+        Color lightOrange = new Color(255, 130, 102);
+        Color OrangeYellow = new Color(255, 165, 102);
+        Color Yellow = new Color(255, 190, 102);
+
+//        String[] buttons = {
+//                "+", "-", "×", "÷",
+//                "7", "8", "9", "(",
+//                "4", "5", "6", ")",
+//                "1", "2", "3", "^",
+//                "0", ".", "(–)", "CE"
+//        };
+
+        buttonColors.put("0", lightRed);
+        buttonColors.put(".", lightRed);
+        buttonColors.put("(–)", lightRed);
+        buttonColors.put("CE", lightRed);
+
+        buttonColors.put("1", redOrange);
+        buttonColors.put("2", redOrange);
+        buttonColors.put("3", redOrange);
+        buttonColors.put("^", redOrange);
+
+        buttonColors.put("4", lightOrange);
+        buttonColors.put("5", lightOrange);
+        buttonColors.put("6", lightOrange);
+        buttonColors.put(")", lightOrange);
+
+        buttonColors.put("7", OrangeYellow);
+        buttonColors.put("8", OrangeYellow);
+        buttonColors.put("9", OrangeYellow);
+        buttonColors.put("(", OrangeYellow);
+
+        buttonColors.put("+", Yellow);
+        buttonColors.put("-", Yellow);
+        buttonColors.put("×", Yellow);
+        buttonColors.put("÷", Yellow);
+
+        buttonColors.put("=", red);
         return buttonColors;
     }
 
-    private JButton createEqualsButton(String buttonText) {
-        Color buttonColor = defineButtonColors().getOrDefault(buttonText, Color.WHITE);
+    private JButton createEqualsButton() {
+        Color buttonColor = defineButtonColors().getOrDefault("=", Color.WHITE);
         // Set text colour and border colour for '=' button
-        RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
+        RoundedButton button = new RoundedButton("=", 20, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
 //        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
          button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
@@ -123,9 +148,11 @@ public class Calculator extends JFrame {
 //            } catch (ArithmeticException e) {
 //                displayField.setText("ERROR");
 //            }
-        } else if (buttonText.equals("DEL")) {
+        } else if (buttonText.equals("CE")) {
             resetDisplayField();
             handleDelete();
+        } else if (buttonText.equals("(–)")) {
+            handleInput("–");
         } else {
             resetDisplayField();
             handleInput(buttonText);
@@ -141,8 +168,7 @@ public class Calculator extends JFrame {
 
     private void performCalculation() {
         String userInput = displayField.getText();
-        MathNode expression = new MathParser().parseExpression(userInput);
-        float result = expression.compute(expression);
+        double result = new MathParser().parseExpression(userInput);
 
         // Check if the result is an integer
         if (result == (int) result) {
