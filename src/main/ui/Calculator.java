@@ -47,7 +47,6 @@ public class Calculator extends JFrame {
     private void initButtonPanel() {
         Map<String, Color> buttonColors = defineButtonColors();
 
-
         buttonPanel = new JPanel(new BorderLayout(10, 10)); // Use BorderLayout
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add padding around the panel
@@ -152,6 +151,7 @@ public class Calculator extends JFrame {
             resetDisplayField();
             handleDelete();
         } else if (buttonText.equals("(–)")) {
+            resetDisplayField();
             handleInput("–");
         } else {
             resetDisplayField();

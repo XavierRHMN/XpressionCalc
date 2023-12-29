@@ -37,6 +37,7 @@ class MathParserTest {
         assertEquals(5, parser.parseExpression("–(–5)"), 0.001);
         assertEquals(6.0, parser.parseExpression("3×(–4+6)"), 0.001);
         assertEquals(27.0, parser.parseExpression("–(–(5+4)×3)"), 0.001);
+        assertThrows(IllegalArgumentException.class,() -> parser.parseExpression("–(–3)–(3)"));
     }
 
     @Test
@@ -55,6 +56,7 @@ class MathParserTest {
         assertEquals(0.75, parser.parseExpression("3÷4"));
         assertEquals(-2.0, parser.parseExpression("–8÷4"));
         assertEquals(0.5, parser.parseExpression("1÷2"));
+        assertThrows(ArithmeticException.class, () -> parser.parseExpression("10÷0"));
     }
 
 
@@ -113,7 +115,6 @@ class MathParserTest {
 
     @Test
     void testDivisionByZero() {
-        assertThrows(ArithmeticException.class, () -> parser.parseExpression("10÷0"));
     }
 
     @Test
