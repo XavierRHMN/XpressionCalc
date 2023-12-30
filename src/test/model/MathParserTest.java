@@ -1,4 +1,4 @@
-package test;
+package test.model;
 
 import main.model.MathParser;
 import org.junit.jupiter.api.Test;
