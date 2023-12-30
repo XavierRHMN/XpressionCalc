@@ -74,9 +74,7 @@ public class MathParser {
             } else {
                 boolean condition = i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == '(');
                 if ("–".indexOf(c) != -1) {
-                    boolean correctUnaryUsage = (i == 0) ||
-                            (i > 0 && (chars[i - 1] == '(' || "+-×÷^".indexOf(chars[i - 1]) != -1) &&
-                                    condition);
+                    boolean correctUnaryUsage = i == 0 || (chars[i - 1] == '(' || "+-×÷^".indexOf(chars[i - 1]) != -1) && condition;
 
                     if (!correctUnaryUsage) {
                         throw new IllegalArgumentException("Invalid use of en dash: " + expression);

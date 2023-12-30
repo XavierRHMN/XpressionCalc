@@ -87,14 +87,6 @@ public class Calculator extends JFrame {
         Color OrangeYellow = new Color(255, 165, 102);
         Color Yellow = new Color(255, 190, 102);
 
-//        String[] buttons = {
-//                "+", "-", "×", "÷",
-//                "7", "8", "9", "(",
-//                "4", "5", "6", ")",
-//                "1", "2", "3", "^",
-//                "0", ".", "(–)", "CE"
-//        };
-
         buttonColors.put("0", lightRed);
         buttonColors.put(".", lightRed);
         buttonColors.put("(–)", lightRed);
