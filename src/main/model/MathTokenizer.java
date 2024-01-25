@@ -33,8 +33,11 @@ public class MathTokenizer {
                 tokens.add(new Token(number.toString(), TokenType.NUMBER));
 
                 // Implicit multiplication after a number
-                if (i + 1 < chars.length && chars[i + 1] == '(') {
-                    tokens.add(new Token("×", TokenType.OPERATOR));
+                if (i + 1 < chars.length) {
+                    char nextChar = chars[i + 1];
+                    if (nextChar == '(' || nextChar == '√' || (nextChar == 'l' && (chars[i + 2] == 'n' || chars[i + 2] == 'o'))) {
+                        tokens.add(new Token("×", TokenType.OPERATOR));
+                    }
                 }
 
             } else {
@@ -59,6 +62,12 @@ public class MathTokenizer {
                     tokens.add(new Token(String.valueOf(Math.PI), TokenType.NUMBER));
                 } else if (c == '√') {
                     tokens.add(new Token("√", TokenType.FUNCTION));
+                } else if (expression.startsWith("ln", i)) {
+                    tokens.add(new Token("ln", TokenType.FUNCTION));
+                    i += 1; // Skip past "ln"
+                } else if (expression.startsWith("log", i)) {
+                    tokens.add(new Token("log", TokenType.FUNCTION));
+                    i += 2; // Skip past "log"
                 } else if ("+-×÷^".indexOf(c) != -1) {
                     tokens.add(new Token(String.valueOf(c), TokenType.OPERATOR));
                 } else if (c == '(') {

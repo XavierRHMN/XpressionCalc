@@ -22,7 +22,7 @@ public class Calculator extends JFrame {
         initButtonPanel();
         layoutComponents();
 
-        setSize(250, 420);
+        setSize(300, 450);
         setTitle("Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -111,7 +111,6 @@ public class Calculator extends JFrame {
         buttonColors.put("9", OrangeYellow);
         buttonColors.put("(", OrangeYellow);
         buttonColors.put("π", OrangeYellow);
-        
 
         buttonColors.put("+", Yellow);
         buttonColors.put("-", Yellow);
@@ -130,7 +129,7 @@ public class Calculator extends JFrame {
         RoundedButton button = new RoundedButton("=", 20, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
 //        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
-         button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
+        button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
         button.addActionListener(e -> buttonClicked(e.getActionCommand()));
         return button;
@@ -181,7 +180,14 @@ public class Calculator extends JFrame {
 
     private void handleDelete() {
         String currentText = displayField.getText();
-        if (!currentText.isEmpty()) {
+        if (currentText.endsWith("ln")) {
+            // Remove the last two characters ("ln")
+            displayField.setText(currentText.substring(0, currentText.length() - 2));
+        } else if (currentText.endsWith("log")) {
+            // Remove the last three characters ("log")
+            displayField.setText(currentText.substring(0, currentText.length() - 3));
+        } else if (!currentText.isEmpty()) {
+            // Remove the last character
             displayField.setText(currentText.substring(0, currentText.length() - 1));
         }
     }

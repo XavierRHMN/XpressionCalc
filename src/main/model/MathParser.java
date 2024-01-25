@@ -62,7 +62,7 @@ public class MathParser {
                     }
                     break;
                 case FUNCTION:
-                    if (token.getValue().equals("√")) {
+                    if (token.getValue().equals("√") || token.getValue().equals("ln") || token.getValue().equals("log")) {
                         operatorStack.push(token);
                     }
                     break;
@@ -77,12 +77,25 @@ public class MathParser {
     }
 
     private void processOperator(Token operator, Stack<Double> operandStack) {
+        if (operandStack.isEmpty()) {
+            throw new IllegalArgumentException("No operand");
+        }
+
         if (operator.getValue().equals("√")) {
-            if (operandStack.isEmpty()) {
-                throw new IllegalArgumentException("No operand for sqrt");
-            }
             double operand = operandStack.pop();
             operandStack.push(Math.sqrt(operand));
+        } else if (operator.getValue().equals("ln")) {
+            double operand = operandStack.pop();
+            if (operand <= 0) {
+                throw new IllegalArgumentException("Argument of ln must be positive");
+            }
+            operandStack.push(Math.log(operand));
+        } else if (operator.getValue().equals("log")) {
+            double operand = operandStack.pop();
+            if (operand <= 0) {
+                throw new IllegalArgumentException("Argument of log must be positive");
+            }
+            operandStack.push(Math.log10(operand));
         } else {
             if (operandStack.size() < 2) {
                 throw new IllegalArgumentException("Not enough operands for operator");
@@ -129,7 +142,9 @@ public class MathParser {
             case "*":
                 return 3;
             case "√":
-                return -1;
+            case "ln":
+            case "log":
+                return 4;
             default:
                 throw new IllegalArgumentException("Unknown operator: " + token.getValue());
         }
