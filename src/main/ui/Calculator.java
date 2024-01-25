@@ -66,7 +66,7 @@ public class Calculator extends JFrame {
         for (String buttonText : buttons) {
             Color buttonColor = buttonColors.getOrDefault(buttonText, Color.WHITE);
             // set text colour and border colour for all buttons except '='
-            RoundedButton button = new RoundedButton(buttonText, 20, Color.WHITE, buttonColor);
+            RoundedButton button = new RoundedButton(buttonText, 30, Color.WHITE, buttonColor);
             button.setBackground(Color.BLACK); // Button color
             button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
             button.addActionListener(e -> buttonClicked(e.getActionCommand()));
@@ -126,7 +126,7 @@ public class Calculator extends JFrame {
     private JButton createEqualsButton() {
         Color buttonColor = defineButtonColors().getOrDefault("=", Color.WHITE);
         // Set text colour and border colour for '=' button
-        RoundedButton button = new RoundedButton("=", 20, Color.WHITE, buttonColor);
+        RoundedButton button = new RoundedButton("=", 30, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
 //        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
         button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
