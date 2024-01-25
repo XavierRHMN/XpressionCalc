@@ -52,15 +52,15 @@ public class Calculator extends JFrame {
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add padding around the panel
 
-        JPanel gridPanel = new JPanel(new GridLayout(5, 4, 10, 10)); // 5 rows, 3 cols, 10px gaps
+        JPanel gridPanel = new JPanel(new GridLayout(5, 5, 10, 10)); // 5 rows, 3 cols, 10px gaps
         gridPanel.setBackground(Color.BLACK);
 
         String[] buttons = {
-            "+", "-", "×", "÷",
-            "7", "8", "9", "(",
-            "4", "5", "6", ")",
-            "1", "2", "3", "^",
-            "0", ".", "(–)", "CE"
+            "+", "-", "×", "÷", "e",
+            "7", "8", "9", "(", "π",
+            "4", "5", "6", ")", "ln",
+            "1", "2", "3", "^", "log",
+            "0", ".", "(–)", "√", "CE"
         };
 
         for (String buttonText : buttons) {
@@ -91,26 +91,34 @@ public class Calculator extends JFrame {
         buttonColors.put(".", lightRed);
         buttonColors.put("(–)", lightRed);
         buttonColors.put("CE", lightRed);
+        buttonColors.put("√", lightRed);
+        
 
         buttonColors.put("1", redOrange);
         buttonColors.put("2", redOrange);
         buttonColors.put("3", redOrange);
         buttonColors.put("^", redOrange);
+        buttonColors.put("log", redOrange);
 
         buttonColors.put("4", lightOrange);
         buttonColors.put("5", lightOrange);
         buttonColors.put("6", lightOrange);
         buttonColors.put(")", lightOrange);
+        buttonColors.put("ln", lightOrange);
 
         buttonColors.put("7", OrangeYellow);
         buttonColors.put("8", OrangeYellow);
         buttonColors.put("9", OrangeYellow);
         buttonColors.put("(", OrangeYellow);
+        buttonColors.put("π", OrangeYellow);
+        
 
         buttonColors.put("+", Yellow);
         buttonColors.put("-", Yellow);
         buttonColors.put("×", Yellow);
         buttonColors.put("÷", Yellow);
+        buttonColors.put("e", Yellow);
+        
 
         buttonColors.put("=", red);
         return buttonColors;

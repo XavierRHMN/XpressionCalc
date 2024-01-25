@@ -61,6 +61,11 @@ public class MathParser {
                         operatorStack.pop(); // Pop the '(' from the stack
                     }
                     break;
+                case FUNCTION:
+                    if (token.getValue().equals("√")) {
+                        operatorStack.push(token);
+                    }
+                    break;
             }
         }
 
@@ -72,34 +77,39 @@ public class MathParser {
     }
 
     private void processOperator(Token operator, Stack<Double> operandStack) {
-        if (operandStack.size() < 2) {
-            throw new IllegalArgumentException();
-        }
-
-        double rightOperand = operandStack.pop();
-        double leftOperand = operandStack.pop();
-        switch (operator.getValue()) {
-            case "+":
-                operandStack.push(leftOperand + rightOperand);
-                break;
-            case "-":
-                operandStack.push(leftOperand - rightOperand);
-                break;
-            case "×":
-            case "*":
-                operandStack.push(leftOperand * rightOperand);
-                break;
-            case "÷":
-                if (rightOperand == 0) {
-                    throw new ArithmeticException();
-                }
-                operandStack.push(leftOperand / rightOperand);
-                break;
-            case "^":
+        if (operator.getValue().equals("√")) {
+            if (operandStack.isEmpty()) {
+                throw new IllegalArgumentException("No operand for sqrt");
+            }
+            double operand = operandStack.pop();
+            operandStack.push(Math.sqrt(operand));
+        } else {
+            if (operandStack.size() < 2) {
+                throw new IllegalArgumentException("Not enough operands for operator");
+            }
+            double rightOperand = operandStack.pop();
+            double leftOperand = operandStack.pop();
+            switch (operator.getValue()) {
+                case "+":
+                    operandStack.push(leftOperand + rightOperand);
+                    break;
+                case "-":
+                    operandStack.push(leftOperand - rightOperand);
+                    break;
+                case "×":
+                case "*":
+                    operandStack.push(leftOperand * rightOperand);
+                    break;
+                case "÷":
+                    if (rightOperand == 0) {
+                        throw new ArithmeticException("Division by zero");
+                    }
+                    operandStack.push(leftOperand / rightOperand);
+                    break;
+                case "^":
                 operandStack.push(Math.pow(leftOperand, rightOperand));
                 break;
-            default:
-                throw new IllegalArgumentException("Unknown operator: " + operator.getValue());
+            }
         }
     }
 
@@ -118,6 +128,8 @@ public class MathParser {
                 return 4;
             case "*":
                 return 3;
+            case "√":
+                return -1;
             default:
                 throw new IllegalArgumentException("Unknown operator: " + token.getValue());
         }

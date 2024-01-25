@@ -1,5 +1,5 @@
 package main.model;
 
 public enum TokenType {
-    NUMBER, OPERATOR, PARENTHESIS
+    NUMBER, OPERATOR, PARENTHESIS, FUNCTION
 }

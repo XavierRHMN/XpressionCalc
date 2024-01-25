@@ -53,6 +53,12 @@ public class MathTokenizer {
                         tokens.add(new Token(")", TokenType.PARENTHESIS));
                         tokens.add(new Token("*", TokenType.OPERATOR));
                     }
+                } else if (c == 'e') {
+                    tokens.add(new Token(String.valueOf(Math.E), TokenType.NUMBER));
+                } else if (c == 'π') {
+                    tokens.add(new Token(String.valueOf(Math.PI), TokenType.NUMBER));
+                } else if (c == '√') {
+                    tokens.add(new Token("√", TokenType.FUNCTION));
                 } else if ("+-×÷^".indexOf(c) != -1) {
                     tokens.add(new Token(String.valueOf(c), TokenType.OPERATOR));
                 } else if (c == '(') {
