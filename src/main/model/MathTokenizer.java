@@ -41,7 +41,11 @@ public class MathTokenizer {
                 }
 
             } else {
-                boolean condition = i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == '(');
+                boolean condition = i + 1 < chars.length && (Character.isDigit(chars[i + 1]) 
+                || chars[i + 1] == '(' || chars[i + 1] == 'e' || chars[i + 1] == 'π' 
+                || chars[i + 1] == '√' || (chars[i + 1] == 'l' && (chars[i + 2] == 'n' 
+                || chars[i + 2] == 'o')));
+                
                 if ("–".indexOf(c) != -1) {
                     boolean correctUnaryUsage = i == 0 || (chars[i - 1] == '(' || "+-×÷^".indexOf(chars[i - 1]) != -1) && condition;
 

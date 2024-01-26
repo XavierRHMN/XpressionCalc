@@ -73,6 +73,7 @@ class MathParserTest {
         assertEquals(14.0, parser.parseExpression("(3+4)×(2)"));
         assertEquals(21.0, parser.parseExpression("3×(7-1+1)"));
         assertEquals(-4.0, parser.parseExpression("–(3+1)"));
+        assertEquals(4.0, parser.parseExpression("–(–2log(99+lne))"));
     }
 
 
