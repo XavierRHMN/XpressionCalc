@@ -3,7 +3,7 @@
 ## Description
 XpressionCalc is a Java-based Calculator that uses parsing to compute lengthy calculations
 
-![XpressionCalc](https://github.com/XavierRHMN/XpressionCalc/assets/151891130/d3e16e4a-0094-42de-928c-e8781b4c244d)
+![final](https://github.com/XavierRHMN/XpressionCalc/assets/151891130/b974930b-c83b-4bd6-8d08-5437963cf1b3)
 
 ## Features
 - Perform basic arithmetic operations: addition, subtraction, multiplication, exponentiation.
