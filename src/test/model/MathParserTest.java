@@ -85,6 +85,21 @@ class MathParserTest {
     }
 
     @Test
+    void testEulerMultiplication() {
+        assertEquals(Math.E * 5, parser.parseExpression("e5"), 0.001);
+        assertEquals(5 * Math.E, parser.parseExpression("5e"), 0.001);
+        assertEquals(Math.E * 5 * 2, parser.parseExpression("5e×2"), 0.001);
+        assertEquals(Math.E * 5 + 2, parser.parseExpression("5e+2"), 0.001);
+    }
+
+    @Test
+    void testPi() {
+        assertEquals(Math.PI * 2, parser.parseExpression("2π"), 0.001);
+        assertEquals(Math.PI * 2, parser.parseExpression("π2"), 0.001);
+        assertEquals(Math.PI * 2, parser.parseExpression("π×2"), 0.001);
+    }
+
+    @Test
     void testLogFunction() {
         assertEquals(1.0, parser.parseExpression("log(10)"), 0.001);
         assertEquals(2.0, parser.parseExpression("log(100)"), 0.001);

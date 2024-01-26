@@ -35,7 +35,7 @@ public class MathTokenizer {
                 // Implicit multiplication after a number
                 if (i + 1 < chars.length) {
                     char nextChar = chars[i + 1];
-                    if (nextChar == '(' || nextChar == '√' || (nextChar == 'l' && (chars[i + 2] == 'n' || chars[i + 2] == 'o'))) {
+                    if (nextChar == '(' || nextChar == 'e' || nextChar == 'π' || nextChar == '√' || (nextChar == 'l' && (chars[i + 2] == 'n' || chars[i + 2] == 'o'))) {
                         tokens.add(new Token("×", TokenType.OPERATOR));
                     }
                 }
@@ -56,10 +56,42 @@ public class MathTokenizer {
                         tokens.add(new Token(")", TokenType.PARENTHESIS));
                         tokens.add(new Token("*", TokenType.OPERATOR));
                     }
+                } else if (c == ')') {
+                    tokens.add(new Token(")", TokenType.PARENTHESIS));
+                    // If the next character is a period without a digit in between, throw a syntax error
+                    if (i + 1 < chars.length && chars[i + 1] == '.') {
+                        throw new IllegalArgumentException("Syntax Error: Parenthesis followed by a period without a digit in between");
+                    }
+                    // If the next character is a digit, a constant, or a parenthesis, add a multiplication operator
+                    if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == 'e' || chars[i + 1] == 'π' || chars[i + 1] == '(')) {
+                        tokens.add(new Token("×", TokenType.OPERATOR));
+                    }
                 } else if (c == 'e') {
+                    // If the last token is also a constant, throw a syntax error
+                    if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getType() == TokenType.NUMBER) {
+                        throw new IllegalArgumentException("Syntax Error: Two constants without an operator in between");
+                    }
                     tokens.add(new Token(String.valueOf(Math.E), TokenType.NUMBER));
+                    // If the next character is a digit or a parenthesis, add a multiplication operator
+                    if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == '(')) {
+                        tokens.add(new Token("×", TokenType.OPERATOR));
+                    }
                 } else if (c == 'π') {
+                    // If the last token is also a constant, throw a syntax error
+                    if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getType() == TokenType.NUMBER) {
+                        throw new IllegalArgumentException("Syntax Error: Two constants without an operator in between");
+                    }
                     tokens.add(new Token(String.valueOf(Math.PI), TokenType.NUMBER));
+                    // If the next character is a digit or a parenthesis, add a multiplication operator
+                    if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == '(')) {
+                        tokens.add(new Token("×", TokenType.OPERATOR));
+                    }
+                } else if (c == 'e' || c == 'π') {
+                    // If the last token is also a constant, throw a syntax error
+                    if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getType() == TokenType.NUMBER) {
+                        throw new IllegalArgumentException("Syntax Error: Two constants without an operator in between");
+                    }
+                    // Rest of the code...
                 } else if (c == '√') {
                     tokens.add(new Token("√", TokenType.FUNCTION));
                 } else if (expression.startsWith("ln", i)) {
