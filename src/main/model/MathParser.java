@@ -87,13 +87,13 @@ public class MathParser {
         } else if (operator.getValue().equals("ln")) {
             double operand = operandStack.pop();
             if (operand <= 0) {
-                throw new IllegalArgumentException("Argument of ln must be positive");
+                throw new ArithmeticException("Argument of ln must be positive");
             }
             operandStack.push(Math.log(operand));
         } else if (operator.getValue().equals("log")) {
             double operand = operandStack.pop();
             if (operand <= 0) {
-                throw new IllegalArgumentException("Argument of log must be positive");
+                throw new ArithmeticException("Argument of log must be positive");
             }
             operandStack.push(Math.log10(operand));
         } else {

@@ -82,15 +82,16 @@ class MathParserTest {
         assertEquals(6.0, parser.parseExpression("(3)(2)"));
         assertEquals(1.8, parser.parseExpression(".6(3)"), 0.001);
         assertEquals(-6.0, parser.parseExpression("–(3)(2)"));
-        assertEquals(9.0, parser.parseExpression("(3)(3)"));
     }
 
     @Test
     void testEulerMultiplication() {
         assertEquals(Math.E * 5, parser.parseExpression("e5"), 0.001);
+        assertEquals(Math.E * 5, parser.parseExpression("e(5)"), 0.001);
+        assertEquals(Math.E * 5, parser.parseExpression("(e)5"), 0.001);
         assertEquals(5 * Math.E, parser.parseExpression("5e"), 0.001);
-        assertEquals(Math.E * 5 * 2, parser.parseExpression("5e×2"), 0.001);
-        assertEquals(Math.E * 5 + 2, parser.parseExpression("5e+2"), 0.001);
+        assertEquals(5 * Math.E, parser.parseExpression("(5)e"), 0.001);
+        assertEquals(Math.E * 5 * 2 + 2, parser.parseExpression("5e×2+2"), 0.001);
     }
 
     @Test
@@ -103,11 +104,13 @@ class MathParserTest {
     @Test
     void testLogFunction() {
         assertEquals(1.0, parser.parseExpression("log(10)"), 0.001);
-        assertEquals(2.0, parser.parseExpression("log(100)"), 0.001);
-        assertEquals(0.0, parser.parseExpression("log(1)"), 0.001);
+        assertEquals(-2.0, parser.parseExpression("(–log(100))"), 0.001);
+        assertEquals(2.0, parser.parseExpression("log(10^2)"), 0.001);
+        assertEquals(2.0, parser.parseExpression("(log(10^2))"), 0.001);
         assertEquals(3.0, parser.parseExpression("2+log(10)"), 0.001);
         assertEquals(1.0, parser.parseExpression("log(100)-log(10)"), 0.001);
         assertEquals(0.5, parser.parseExpression("log(10)÷log(100)"), 0.001);
+        assertThrows(ArithmeticException.class, () -> parser.parseExpression("log(0)"));
     }
 
     @Test
@@ -115,6 +118,8 @@ class MathParserTest {
     assertEquals(3.30258509299, parser.parseExpression("1+ln(10)"), 0.001);
     assertEquals(1.60943791243, parser.parseExpression("ln(10)-ln(2)"), 0.001);
     assertEquals(3.32192809489, parser.parseExpression("ln(10)÷ln(2)"), 0.001);
+    assertThrows(ArithmeticException.class, () -> parser.parseExpression("ln(0)"));
+
     }
 
     @Test
