@@ -2,6 +2,8 @@ package main.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -11,6 +13,7 @@ class RoundedButton extends JButton {
     private Color borderColor;
     private final Color originalBorderColor;
     private final Color originalTextColor;
+    private Timer fadeOutTimer;
     private final Color hoverBorderColor = new Color(144, 238, 144);
 
     public RoundedButton(String label, int cornerRadius, Color textColor, Color borderColor) {
@@ -28,16 +31,45 @@ class RoundedButton extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
+                if (fadeOutTimer != null && fadeOutTimer.isRunning()) {
+                    fadeOutTimer.stop();
+                }
                 RoundedButton.this.borderColor = hoverBorderColor;
-                setForeground(hoverBorderColor);
+                setForeground(hoverBorderColor); // Set the text color to green
                 repaint();
             }
 
-            @Override
             public void mouseExited(MouseEvent e) {
-                RoundedButton.this.borderColor = originalBorderColor;
-                setForeground(originalTextColor);
-                repaint();
+                final int STEPS = 10;
+                fadeOutTimer = new Timer(20, null);
+                fadeOutTimer.addActionListener(new ActionListener() {
+                    int step = 0;
+                    public void actionPerformed(ActionEvent evt) {
+                        float linearRatio = (float)step / (float)STEPS;
+                        // Apply ease-out interpolation
+                        float ratio = (float)Math.pow(linearRatio, 0.67);
+            
+                        int red = (int)(hoverBorderColor.getRed() * (1 - ratio) + originalBorderColor.getRed() * ratio);
+                        int green = (int)(hoverBorderColor.getGreen() * (1 - ratio) + originalBorderColor.getGreen() * ratio);
+                        int blue = (int)(hoverBorderColor.getBlue() * (1 - ratio) + originalBorderColor.getBlue() * ratio);
+                        Color mixedColor = new Color(red, green, blue);
+                        RoundedButton.this.borderColor = mixedColor;
+            
+                        // Fade out the text color from green to white
+                        int textRed = (int)(hoverBorderColor.getRed() * (1 - ratio) + Color.WHITE.getRed() * ratio);
+                        int textGreen = (int)(hoverBorderColor.getGreen() * (1 - ratio) + Color.WHITE.getGreen() * ratio);
+                        int textBlue = (int)(hoverBorderColor.getBlue() * (1 - ratio) + Color.WHITE.getBlue() * ratio);
+                        Color mixedTextColor = new Color(textRed, textGreen, textBlue);
+                        setForeground(mixedTextColor); // Change the text color
+            
+                        repaint();
+                        step++;
+                        if (step > STEPS) {
+                            fadeOutTimer.stop();
+                        }
+                    }
+                });
+                fadeOutTimer.start();
             }
         });
     }
