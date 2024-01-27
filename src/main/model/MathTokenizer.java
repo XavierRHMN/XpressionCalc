@@ -67,12 +67,12 @@ public class MathTokenizer {
                         throw new IllegalArgumentException("Syntax Error: Parenthesis followed by a period without a digit in between");
                     }
                     // If the next character is a digit, a constant, or a parenthesis, add a multiplication operator
-                    if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == 'e' || chars[i + 1] == 'π' || chars[i + 1] == '(')) {
+                    if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || chars[i + 1] == 'e' || chars[i + 1] == 'π' || chars[i + 1] == '(' || chars[i+1] == '√')) {
                         tokens.add(new Token("×", TokenType.OPERATOR));
                     }
                 } else if (c == 'e') {
                     // If the last token is also a constant, throw a syntax error
-                    if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getType() == TokenType.NUMBER) {
+                    if (!tokens.isEmpty() && tokens.getLast().getType() == TokenType.NUMBER) {
                         throw new IllegalArgumentException("Syntax Error: Two constants without an operator in between");
                     }
                     tokens.add(new Token(String.valueOf(Math.E), TokenType.NUMBER));
@@ -82,7 +82,7 @@ public class MathTokenizer {
                     }
                 } else if (c == 'π') {
                     // If the last token is also a constant, throw a syntax error
-                    if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getType() == TokenType.NUMBER) {
+                    if (!tokens.isEmpty() && tokens.getLast().getType() == TokenType.NUMBER) {
                         throw new IllegalArgumentException("Syntax Error: Two constants without an operator in between");
                     }
                     tokens.add(new Token(String.valueOf(Math.PI), TokenType.NUMBER));
