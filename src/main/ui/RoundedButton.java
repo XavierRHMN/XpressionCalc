@@ -12,7 +12,6 @@ class RoundedButton extends JButton {
     private final int cornerRadius;
     private Color borderColor;
     private final Color originalBorderColor;
-    private final Color originalTextColor;
     private Timer fadeOutTimer;
     private final Color hoverBorderColor = new Color(144, 238, 144);
 
@@ -20,14 +19,12 @@ class RoundedButton extends JButton {
         super(label);
         this.cornerRadius = cornerRadius;
         this.originalBorderColor = borderColor;
-        this.originalTextColor = textColor;
         this.borderColor = borderColor;
 
         setContentAreaFilled(false);
         setFocusPainted(false);
         setForeground(textColor);
         setFont(new Font("SansSerif", Font.BOLD, 24));
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -52,8 +49,7 @@ class RoundedButton extends JButton {
                         int red = (int)(hoverBorderColor.getRed() * (1 - ratio) + originalBorderColor.getRed() * ratio);
                         int green = (int)(hoverBorderColor.getGreen() * (1 - ratio) + originalBorderColor.getGreen() * ratio);
                         int blue = (int)(hoverBorderColor.getBlue() * (1 - ratio) + originalBorderColor.getBlue() * ratio);
-                        Color mixedColor = new Color(red, green, blue);
-                        RoundedButton.this.borderColor = mixedColor;
+                        RoundedButton.this.borderColor = new Color(red, green, blue);
             
                         // Fade out the text color from green to white
                         int textRed = (int)(hoverBorderColor.getRed() * (1 - ratio) + Color.WHITE.getRed() * ratio);
