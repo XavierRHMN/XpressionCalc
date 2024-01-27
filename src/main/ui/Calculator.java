@@ -25,8 +25,8 @@ public class Calculator extends JFrame {
         setSize(300, 450);
         setTitle("Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
         setLocationRelativeTo(null); // Center the frame on the screen
+        setVisible(true);
     }
 
     private Image loadIconImage() {

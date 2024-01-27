@@ -33,7 +33,7 @@ class MathParserTest {
         assertEquals(-1, parser.parseExpression("–5+4"), 0.001);
         assertEquals(-20, parser.parseExpression("–5×4"), 0.001);
         assertEquals(-9, parser.parseExpression("–(4+5)"), 0.001);
-        assertEquals(5, parser.parseExpression("–(–5)"), 0.001);
+        assertEquals(5.0, parser.parseExpression("–(–5)"), 0.001);
         assertEquals(6.0, parser.parseExpression("3×(–4+6)"), 0.001);
         assertEquals(27.0, parser.parseExpression("–(–(5+4)×3)"), 0.001);
     }
