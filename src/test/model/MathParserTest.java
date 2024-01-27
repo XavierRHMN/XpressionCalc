@@ -132,6 +132,8 @@ class MathParserTest {
         assertEquals(5.41421356237, parser.parseExpression("√2+2×√4"), 0.001);
         assertEquals(3.0, parser.parseExpression("√(2+7.5-0.5)"));
         assertEquals(2.0, parser.parseExpression("√(2^√4)"));
+        assertEquals(2.0, parser.parseExpression("√(2)√(2)"), 0.001);
+        assertEquals(2.0, parser.parseExpression("√2√(2)"), 0.001);
     }
 
     @Test
