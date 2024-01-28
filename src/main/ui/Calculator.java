@@ -30,7 +30,7 @@ public class Calculator extends JFrame {
     }
 
     private Image loadIconImage() {
-        ImageIcon icon = new ImageIcon("calculator.jpg");
+        ImageIcon icon = new ImageIcon("calculator.png");
         return icon.getImage();
     }
 
@@ -141,24 +141,27 @@ public class Calculator extends JFrame {
             displayField.setText("");
         }
 
-        if (buttonText.equals("=")) {
-            try {
-                performCalculation();
-            } catch (IllegalArgumentException e) {
-                displayField.setText("SYNTAX ERROR");
-            } catch (ArithmeticException e) {
-                displayField.setText("ARITHMETIC ERROR");
-            } catch (EmptyStackException ignored) {
+        switch (buttonText) {
+            case "=" -> {
+                try {
+                    performCalculation();
+                } catch (IllegalArgumentException e) {
+                    displayField.setText("SYNTAX ERROR");
+                } catch (ArithmeticException e) {
+                    displayField.setText("ARITHMETIC ERROR");
+                } catch (EmptyStackException ignored) {
 
+                }
             }
-        } else if (buttonText.equals("CE")) {
-            resetDisplayField();
-            handleDelete();
-        } else if (buttonText.equals("(–)")) {
-            handleInput("–");
-        } else {
-            resetDisplayField();
-            handleInput(buttonText);
+            case "CE" -> {
+                resetDisplayField();
+                handleDelete();
+            }
+            case "(–)" -> handleInput("–");
+            default -> {
+                resetDisplayField();
+                handleInput(buttonText);
+            }
         }
     }
 
