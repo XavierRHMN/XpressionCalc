@@ -136,6 +136,11 @@ public class Calculator extends JFrame {
     }
 
     private void buttonClicked(String buttonText) {
+        // Reset the display field if it shows an error message
+        if (displayField.getText().equals("SYNTAX ERROR") || displayField.getText().equals("ARITHMETIC ERROR")) {
+            displayField.setText("");
+        }
+
         if (buttonText.equals("=")) {
             try {
                 performCalculation();
@@ -143,7 +148,7 @@ public class Calculator extends JFrame {
                 displayField.setText("SYNTAX ERROR");
             } catch (ArithmeticException e) {
                 displayField.setText("ARITHMETIC ERROR");
-            } catch (EmptyStackException e) {
+            } catch (EmptyStackException ignored) {
 
             }
         } else if (buttonText.equals("CE")) {
