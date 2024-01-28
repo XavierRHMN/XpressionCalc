@@ -17,10 +17,10 @@ XpressionCalc is a Java-based Calculator that uses parsing to compute lengthy ca
 
 
 ## Installation
-- To run the project from the command line, go to the dist folder and type the following:
+- To run the project from the command line, go to the build folder and type the following:
 java -jar "XpressionCalc.jar"
 
-- To distribute this project, zip up the dist folder and distribute the ZIP file.
+- To distribute this project, zip up the build folder and distribute the ZIP file.
 
 ### Prerequisites
 - Java JDK 8 or higher is required to run the application. Ensure Java is installed and properly set up on your system.
