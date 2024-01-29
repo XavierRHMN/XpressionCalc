@@ -5,6 +5,8 @@ import main.model.MathParser;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
@@ -177,11 +179,15 @@ public class Calculator extends JFrame {
         String userInput = displayField.getText();
         double result = new MathParser().parseExpression(userInput);
 
+        BigDecimal bd = new BigDecimal(Double.toString(result));
+        bd = bd.setScale(12, RoundingMode.HALF_UP);
+        double roundedResult = bd.doubleValue();
+
         // Check if the result is an integer
-        if (result == (int) result) {
-            displayField.setText(String.valueOf((int) result));
+        if (roundedResult == (int) roundedResult) {
+            displayField.setText(String.valueOf((int) roundedResult));
         } else {
-            displayField.setText(String.valueOf(result));
+            displayField.setText(String.valueOf(roundedResult));
         }
         calculationPerformed = true;
     }
