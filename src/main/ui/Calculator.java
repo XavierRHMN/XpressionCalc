@@ -16,6 +16,7 @@ public class Calculator extends JFrame {
     private JTextField displayField;
     private JPanel buttonPanel;
     private boolean calculationPerformed; // Flag to indicate if calculation was performed
+    private static final String FONT_NAME = "Lucida Sans";
 
     public Calculator() {
         setIconImage(loadIconImage()); // Set custom icon
@@ -26,7 +27,7 @@ public class Calculator extends JFrame {
 
         setSize(300, 450);
         setTitle("Calculator");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Use static access with "javax.swing.WindowConstants" for "EXIT_ON_CLOSE"
         setLocationRelativeTo(null); // Center the frame on the screen
         setVisible(true);
     }
@@ -39,9 +40,9 @@ public class Calculator extends JFrame {
 
     private void initDisplayField() {
         displayField = new JTextField();
-        displayField.setHorizontalAlignment(JTextField.CENTER);
+        displayField.setHorizontalAlignment(SwingConstants.CENTER);
         displayField.setEditable(false);
-        displayField.setFont(new Font("Lucida Sans", Font.BOLD, 20));
+        displayField.setFont(new Font(FONT_NAME, Font.BOLD, 20));
         displayField.setBackground(Color.BLACK);
         displayField.setForeground(Color.WHITE);
         displayField.setBorder(new EmptyBorder(10, 10, 10, 10)); // Set padding around the display field
@@ -70,7 +71,7 @@ public class Calculator extends JFrame {
             // set text colour and border colour for all buttons except '='
             RoundedButton button = new RoundedButton(buttonText, 30, Color.WHITE, buttonColor);
             button.setBackground(Color.BLACK); // Button color
-            button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
+            button.setFont(new Font(FONT_NAME, Font.BOLD, 20)); // Set the custom font here
             button.addActionListener(e -> buttonClicked(e.getActionCommand()));
             gridPanel.add(button);
         }
@@ -86,8 +87,8 @@ public class Calculator extends JFrame {
         Color lightRed = new Color(255, 89, 89);
         Color redOrange = new Color(250, 110, 91);
         Color lightOrange = new Color(255, 130, 102);
-        Color OrangeYellow = new Color(255, 165, 102);
-        Color Yellow = new Color(255, 190, 102);
+        Color orangeYellow = new Color(255, 165, 102);
+        Color yellow = new Color(255, 190, 102);
 
         buttonColors.put("0", lightRed);
         buttonColors.put(".", lightRed);
@@ -108,17 +109,17 @@ public class Calculator extends JFrame {
         buttonColors.put(")", lightOrange);
         buttonColors.put("ln", lightOrange);
 
-        buttonColors.put("7", OrangeYellow);
-        buttonColors.put("8", OrangeYellow);
-        buttonColors.put("9", OrangeYellow);
-        buttonColors.put("(", OrangeYellow);
-        buttonColors.put("π", OrangeYellow);
+        buttonColors.put("7", orangeYellow);
+        buttonColors.put("8", orangeYellow);
+        buttonColors.put("9", orangeYellow);
+        buttonColors.put("(", orangeYellow);
+        buttonColors.put("π", orangeYellow);
 
-        buttonColors.put("+", Yellow);
-        buttonColors.put("-", Yellow);
-        buttonColors.put("×", Yellow);
-        buttonColors.put("÷", Yellow);
-        buttonColors.put("e", Yellow);
+        buttonColors.put("+", yellow);
+        buttonColors.put("-", yellow);
+        buttonColors.put("×", yellow);
+        buttonColors.put("÷", yellow);
+        buttonColors.put("e", yellow);
         
 
         buttonColors.put("=", red);
@@ -131,7 +132,7 @@ public class Calculator extends JFrame {
         RoundedButton button = new RoundedButton("=", 30, Color.WHITE, buttonColor);
         button.setBackground(Color.BLACK); // Button color
 //        button.setFont(new Font("SansSerif", Font.BOLD, 20)); // Increase font size
-        button.setFont(new Font("Lucida Sans", Font.BOLD, 20)); // Set the custom font here
+        button.setFont(new Font(FONT_NAME, Font.BOLD, 20)); // Set the custom font here
         button.setMargin(new Insets(5, 5, 5, 5)); // Set button margins
         button.addActionListener(e -> buttonClicked(e.getActionCommand()));
         return button;

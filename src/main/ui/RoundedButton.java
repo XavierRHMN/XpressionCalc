@@ -12,8 +12,11 @@ class RoundedButton extends JButton {
     private final int cornerRadius;
     private Color borderColor;
     private final Color originalBorderColor;
+    private Color currentRainbowColor; // Add this line to store the current color of the rainbow cycle
     private Timer fadeOutTimer;
+    private Timer rainbowTimer;
     private final Color hoverBorderColor = new Color(144, 238, 144);
+    private float hue = 0.0f; // Hue for the HSB color model
 
     public RoundedButton(String label, int cornerRadius, Color textColor, Color borderColor) {
         super(label);
@@ -32,42 +35,42 @@ class RoundedButton extends JButton {
                     fadeOutTimer.stop();
                 }
                 RoundedButton.this.borderColor = hoverBorderColor;
-                setForeground(hoverBorderColor); // Set the text color to green
                 repaint();
             }
 
             public void mouseExited(MouseEvent e) {
-                final int STEPS = 10;
-                fadeOutTimer = new Timer(20, null);
+                final int STEPS = 10; // Increase the number of steps
+                fadeOutTimer = new Timer(5, null); // Decrease the delay
                 fadeOutTimer.addActionListener(new ActionListener() {
                     int step = 0;
+                    Color startColor = hoverBorderColor;
+                    Color endColor = borderColor;
                     public void actionPerformed(ActionEvent evt) {
-                        float linearRatio = (float)step / (float)STEPS;
-                        // Apply ease-out interpolation
-                        float ratio = (float)Math.pow(linearRatio, 0.67);
-            
-                        int red = (int)(hoverBorderColor.getRed() * (1 - ratio) + originalBorderColor.getRed() * ratio);
-                        int green = (int)(hoverBorderColor.getGreen() * (1 - ratio) + originalBorderColor.getGreen() * ratio);
-                        int blue = (int)(hoverBorderColor.getBlue() * (1 - ratio) + originalBorderColor.getBlue() * ratio);
+                        float ratio = (float)step / (float)STEPS;
+                        int red = (int)(startColor.getRed() * (1 - ratio) + endColor.getRed() * ratio);
+                        int green = (int)(startColor.getGreen() * (1 - ratio) + endColor.getGreen() * ratio);
+                        int blue = (int)(startColor.getBlue() * (1 - ratio) + endColor.getBlue() * ratio);
                         RoundedButton.this.borderColor = new Color(red, green, blue);
-            
-                        // Fade out the text color from green to white
-                        int textRed = (int)(hoverBorderColor.getRed() * (1 - ratio) + Color.WHITE.getRed() * ratio);
-                        int textGreen = (int)(hoverBorderColor.getGreen() * (1 - ratio) + Color.WHITE.getGreen() * ratio);
-                        int textBlue = (int)(hoverBorderColor.getBlue() * (1 - ratio) + Color.WHITE.getBlue() * ratio);
-                        Color mixedTextColor = new Color(textRed, textGreen, textBlue);
-                        setForeground(mixedTextColor); // Change the text color
-            
                         repaint();
                         step++;
                         if (step > STEPS) {
-                            fadeOutTimer.stop();
+                            ((Timer)evt.getSource()).stop();
                         }
                     }
                 });
                 fadeOutTimer.start();
             }
         });
+        rainbowTimer = new Timer(100, null);
+        rainbowTimer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                hue = (hue + 0.01f) % 1.0f;
+                currentRainbowColor = Color.getHSBColor(hue, 1.0f, 1.0f); // Update the current color of the rainbow cycle
+                RoundedButton.this.setForeground(currentRainbowColor); // Set the text color to the current color of the rainbow cycle
+                repaint();
+            }
+        });
+        rainbowTimer.start();
     }
 
     @Override
