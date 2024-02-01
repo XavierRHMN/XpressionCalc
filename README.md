@@ -36,4 +36,5 @@ java -jar "XpressionCalc.jar"
 - History feature to view previous calculations.
 - Customization options for the interface, such as themes and colors.
 
+## License
 [MIT License](LICENSE)
